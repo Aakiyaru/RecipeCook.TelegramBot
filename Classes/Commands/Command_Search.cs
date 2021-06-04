@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -8,16 +8,19 @@ using Telegram.Bot.Types;
 
 namespace Console_TelegramBot.Classes.Commands
 {
+    //наследование от абстрактного класса Command
     class Command_Search : Command
     {
         public override string Name => throw new NotImplementedException();
 
         public override async void Execute(Message message, TelegramBotClient Bot)
         {
+            //переменная в которой содержится текст набранный пользователем
             string zapros = message.Text;
 
             Console.WriteLine($"    #Request: "+ zapros);
 
+            //создаём запрос на Spoonacular API с использованием полученного текста
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create("https://api.spoonacular.com/recipes/complexSearch?apiKey=eaaa3a4d5e9046d0800682645d0a4cd2&number=1&query=" + zapros);
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
@@ -29,6 +32,7 @@ namespace Console_TelegramBot.Classes.Commands
 
             dynamic d = JsonConvert.DeserializeObject(SReadData);
             var id = 0;
+            //если блюдо не найдено, то вывод ошибки в консоль
             try
             {
                 id = d.results[0].id;
@@ -57,6 +61,7 @@ namespace Console_TelegramBot.Classes.Commands
 
                 Console.WriteLine("    #Searching for recipe...");
 
+                //создаём запрос на Spoonacular API с использованием полученного id
                 HttpWebRequest recipe_request = (HttpWebRequest)WebRequest.Create("https://api.spoonacular.com/recipes/" + id + "/information?apiKey=eaaa3a4d5e9046d0800682645d0a4cd2");
                 HttpWebResponse recipe_response = (HttpWebResponse)recipe_request.GetResponse();
 
@@ -68,8 +73,10 @@ namespace Console_TelegramBot.Classes.Commands
 
                 dynamic recipe_d = JsonConvert.DeserializeObject(recipe_SReadData);
 
+                //отправка фото блюда
                 await Bot.SendPhotoAsync(message.Chat.Id, d.results[0].image.ToString());
 
+                //считываем данные из полученного JSON пакета и распеределяем по переменным
                 bool vegetarian = recipe_d.vegetarian;
                 Console.WriteLine("        #Vegetarian: " + vegetarian);
 
@@ -91,8 +98,10 @@ namespace Console_TelegramBot.Classes.Commands
                 int healthScore = recipe_d.healthScore;
                 Console.WriteLine("        #healthScore: " + healthScore);
 
+                //создаём переменную первого сообщения в котором будут баллы блюда и его название
                 string recipe_Scores = d.results[0].title + "\n\n";
 
+                //редактирование первого сообщения
                 recipe_Scores += (char.ConvertFromUtf32(0x1F44D) + " Aggregate Likes: " + aggregateLikes + "\n");
                 recipe_Scores += (char.ConvertFromUtf32(0x2764) + " Health Score: " + healthScore + "\n");
                 recipe_Scores += (char.ConvertFromUtf32(0x1F354) + " Weight Watcher Smart Points: " + weightWatcherSmartPoints + "\n");
@@ -133,10 +142,14 @@ namespace Console_TelegramBot.Classes.Commands
                     recipe_Scores += (char.ConvertFromUtf32(0x1F34F) + " Not suitable for vegetarians and vegans\n");
                 }
 
+                //отправка первого сообщения
                 await Bot.SendTextMessageAsync(message.Chat.Id, recipe_Scores);
 
                 Console.WriteLine("        #Getting recipe...");
+                //создание второго сообщения - самого рецепта
                 string instructions = recipe_d.instructions;
+
+                //удаление из него тегов HTML
                 Regex ol = new Regex(@"<ol>");
                 Regex ol2 = new Regex(@"</ol>");
                 Regex li = new Regex(@"<li>");
@@ -147,7 +160,7 @@ namespace Console_TelegramBot.Classes.Commands
                 instructions = li.Replace(instructions, "");
                 instructions = li2.Replace(instructions, "");
 
-
+                //отправка второго сообщения
                 Console.WriteLine("        #Recipe sended");
                 Console.WriteLine("        #Task complete\n");
                 await Bot.SendTextMessageAsync(message.Chat.Id, instructions);
