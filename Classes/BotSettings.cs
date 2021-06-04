@@ -6,7 +6,7 @@ namespace Console_TelegramBot.Classes
 {
     class BotSettings
     {
-        //insert your Bot's token here
+        //класс, в котором находятся настройки бота. В моей программе настройка всего одна - это токен бота
         static public string Token { get; set; } = " ";
     }
 }
