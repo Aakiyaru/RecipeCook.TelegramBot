@@ -1,13 +1,15 @@
-﻿using System.Threading;
+using System.Threading;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
 namespace Console_TelegramBot.Classes.Commands
 {
+    //наследование от абстрактного класса Command
     class Command_Easteregg : Command
     {
         public override string Name => "/easteregg";
 
+        //данный метод отправляет пользователю картинку с подписью
         public override async void Execute(Message message, TelegramBotClient Bot)
         {
             Thread.Sleep(500);
