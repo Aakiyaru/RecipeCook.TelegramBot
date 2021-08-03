@@ -57,7 +57,7 @@ namespace Console_TelegramBot.Classes.Commands
             Console.WriteLine("        #healthScore: " + healthScore);
 
             //создаём переменную первого сообщения в котором будут баллы блюда
-            string recipe_Scores = "";
+            string recipe_Scores = recipe_d.title + "\n\n";
 
             //отправка пользователю фотографии блюда
             await Bot.SendPhotoAsync(message.Chat.Id, recipe_d.image.ToString());
