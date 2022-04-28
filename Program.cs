@@ -11,7 +11,7 @@ namespace Console_TelegramBot
         {
             //Выводим в консоль информацию о боте
             Console.WriteLine("Cook Recipe Telegram Bot v1.0\n" +
-                "Bot token: 1781096051:AAHiP8-skOHpnhaur5ibn4dYAVkgCQjyAb4\n\n" +
+                $"Bot token: {BotSettings.Token}\n\n" +
                 "Write /start to begin\n");
 
             //Запрашиваем команду /start на запуск бота

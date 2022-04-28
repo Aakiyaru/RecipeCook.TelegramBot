@@ -18,7 +18,6 @@ namespace Console_TelegramBot.Classes.Commands
             var button_1 = new Telegram.Bot.Types.ReplyMarkups.InlineKeyboardButton();
             var button_2 = new Telegram.Bot.Types.ReplyMarkups.InlineKeyboardButton();
             var button_3 = new Telegram.Bot.Types.ReplyMarkups.InlineKeyboardButton();
-            var button_4 = new Telegram.Bot.Types.ReplyMarkups.InlineKeyboardButton();
 
             button_1.Text = "Spoonacular.com";
             button_1.Url = "https://spoonacular.com/food-api";
@@ -27,13 +26,10 @@ namespace Console_TelegramBot.Classes.Commands
             button_2.Url = "https://github.com/TelegramBots/Telegram.Bot";
 
             button_3.Text = "My GitHub";
-            button_3.Url = "https://github.com/ZLobbster";
-
-            button_4.Text = "My YouTube";
-            button_4.Url = "https://www.youtube.com/c/Denixon";
+            button_3.Url = "https://github.com/ERUW3";
 
             var row_1 = new Telegram.Bot.Types.ReplyMarkups.InlineKeyboardButton[] { button_1, button_2 };
-            var row_2 = new Telegram.Bot.Types.ReplyMarkups.InlineKeyboardButton[] { button_3, button_4 };
+            var row_2 = new Telegram.Bot.Types.ReplyMarkups.InlineKeyboardButton[] { button_3 };
 
             var buttons = new Telegram.Bot.Types.ReplyMarkups.InlineKeyboardButton[][] { row_1, row_2 };
 
