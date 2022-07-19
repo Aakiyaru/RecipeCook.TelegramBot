@@ -10,7 +10,7 @@ namespace Console_TelegramBot
         static void Main(string[] args)
         {
             //Выводим в консоль информацию о боте
-            Console.WriteLine("Cook Recipe Telegram Bot v1.0\n" +
+            Console.WriteLine("Cook Recipe Telegram Bot v1.1\n" +
                 $"Bot token: {BotSettings.Token}\n\n" +
                 "Write /start to begin\n");
 
